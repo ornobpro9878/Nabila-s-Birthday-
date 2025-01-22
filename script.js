@@ -1,67 +1,43 @@
 let currentSlide = 0;
 const slides = document.querySelectorAll(".slide");
+const yesButton = document.getElementById("yesButton");
+const noButton = document.getElementById("noButton");
+const okButton = document.getElementById("okButton");
+const turnOffLightButton = document.getElementById("turnOffLight");
 
-// Function to show the next slide
+function showSlide(index) {
+    slides.forEach(slide => slide.classList.remove("active"));
+    slides[index].classList.add("active");
+}
+
 function nextSlide() {
     if (currentSlide < slides.length - 1) {
-        slides[currentSlide].classList.remove("active");
         currentSlide++;
-        slides[currentSlide].classList.add("active");
+        showSlide(currentSlide);
     }
 }
 
-// Function to release balloons
-function releaseBalloons() {
-    const balloonContainer = document.getElementById("balloonContainer");
-    const balloons = [];
+yesButton.addEventListener("click", () => {
+    currentSlide = 3; // Skip the 'Please Watch' slide
+    showSlide(currentSlide);
+});
 
-    for (let i = 0; i < 10; i++) {
-        const balloon = document.createElement("div");
-        balloon.classList.add("balloon");
-        balloon.style.left = `${Math.random() * 90 + 5}%`;
-        balloon.style.animationDelay = `${Math.random() * 2}s`;
-        balloonContainer.appendChild(balloon);
-        balloons.push(balloon);
+noButton.addEventListener("click", () => {
+    currentSlide = 2; // Show the 'Please Watch' slide
+    showSlide(currentSlide);
+});
 
-        setTimeout(() => {
-            balloon.style.display = "block";
-        }, 100);
-    }
+okButton.addEventListener("click", nextSlide);
 
+turnOffLightButton.addEventListener("click", () => {
+    document.body.style.backgroundColor = "black";
     setTimeout(() => {
-        balloons.forEach(balloon => balloon.remove());
-    }, 5000);
-}
+        document.body.style.backgroundColor = "#fdf6e3";
+    }, 6000); // Restore after 6 seconds
+});
 
-// Function to animate cake cutting
-function cutCake() {
-    const cakeContainer = document.getElementById("cakeContainer");
-    cakeContainer.style.background = "linear-gradient(to bottom, #ffccd5, #ffe6f2)";
-    cakeContainer.innerHTML = `<p>Enjoy the cake! 🎂</p>`;
-}
+// Initial display
+showSlide(currentSlide);
 
-// Background heart particles
-const particleCanvas = document.getElementById("particleCanvas");
-const ctx = particleCanvas.getContext("2d");
-const particles = [];
-
-function resizeCanvas() {
-    particleCanvas.width = window.innerWidth;
-    particleCanvas.height = window.innerHeight;
-}
-
-function createParticles() {
-    for (let i = 0; i < 50; i++) {
-        particles.push({
-            x: Math.random() * particleCanvas.width,
-            y: Math.random() * particleCanvas.height,
-            size: Math.random() * 5 + 1,
-            speedX: Math.random() * 2 - 1,
-            speedY: Math.random() * 2 - 1,
-            opacity: Math.random()
-        });
-    }
-}
-
-resizeCanvas();
-createParticles();
+// Automatically transition slides
+setInterval(nextSlide, 5000);
