@@ -1,96 +1,87 @@
 document.addEventListener("DOMContentLoaded", () => {
-    let currentSlide = 1;
-
     const slides = document.querySelectorAll(".slide");
-    const showSlide = (slideNumber) => {
-        slides.forEach((slide, index) => {
-            slide.classList.toggle("active", index === slideNumber - 1);
+    const nextButtons = document.querySelectorAll("#nextButton");
+    const balloonContainer = document.getElementById("balloonContainer");
+    const cutCakeButton = document.getElementById("cutCakeButton");
+    let currentSlide = 0;
+
+    // Function to go to the next slide
+    nextButtons.forEach((button, index) => {
+        button.addEventListener("click", () => {
+            if (index < slides.length - 1) {
+                slides[currentSlide].classList.remove("active");
+                slides[currentSlide].classList.add("hidden");
+                currentSlide++;
+                slides[currentSlide].classList.remove("hidden");
+                slides[currentSlide].classList.add("active");
+
+                if (currentSlide === 2) spawnBalloons();
+            }
         });
-    };
-
-    // Initial Slide
-    showSlide(currentSlide);
-
-    // Button Handlers
-    document.getElementById("yesButton").addEventListener("click", () => {
-        currentSlide++;
-        showSlide(currentSlide);
     });
 
-    document.getElementById("noButton").addEventListener("click", () => {
-        alert("Oh no! 😢 But it's still your special day, Nabila!");
-    });
-
-    document.getElementById("nextButton1").addEventListener("click", () => {
-        currentSlide++;
-        showSlide(currentSlide);
-        startParticles();
-    });
-
-    document.getElementById("nextButton2").addEventListener("click", () => {
-        currentSlide++;
-        showSlide(currentSlide);
-    });
-
-    document.getElementById("cutCakeButton").addEventListener("click", () => {
-        alert("🎂 Cake cut! Happy Birthday, Nabila!");
-    });
-
-    document.getElementById("nextButton3").addEventListener("click", () => {
-        currentSlide++;
-        showSlide(currentSlide);
-    });
-
-    // Particle Animation
-    const startParticles = () => {
-        const canvas = document.getElementById("particleCanvas");
-        const ctx = canvas.getContext("2d");
-        const particles = [];
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 5 + 1;
-                this.speedX = Math.random() * 3 - 1.5;
-                this.speedY = Math.random() * 3 - 1.5;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.size > 0.2) this.size -= 0.1;
-            }
-            draw() {
-                ctx.fillStyle = "#ff6f61";
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+    // Function to spawn balloons
+    function spawnBalloons() {
+        balloonContainer.innerHTML = ""; // Clear previous balloons
+        for (let i = 0; i < 8; i++) {
+            const balloon = document.createElement("div");
+            balloon.className = "balloon";
+            balloon.style.left = `${Math.random() * 80 + 10}%`;
+            balloon.style.animationDelay = `${Math.random() * 2}s`;
+            balloon.addEventListener("click", () => balloon.remove());
+            balloonContainer.appendChild(balloon);
         }
+    }
 
-        const initParticles = () => {
-            for (let i = 0; i < 100; i++) {
-                particles.push(new Particle());
+    // Cut the cake animation
+    cutCakeButton.addEventListener("click", () => {
+        cutCakeButton.textContent = "Enjoy the Cake! 🎂";
+        cutCakeButton.disabled = true;
+    });
+
+    // Particle background
+    const particleCanvas = document.getElementById("particleCanvas");
+    const ctx = particleCanvas.getContext("2d");
+    const particles = [];
+
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function resizeCanvas() {
+        particleCanvas.width = window.innerWidth;
+        particleCanvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+        particles.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            radius: Math.random() * 4 + 1,
+            dx: Math.random() * 2 - 1,
+            dy: Math.random() * 2 - 1,
+        });
+    }
+
+    function updateParticles() {
+        ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+        particles.forEach((particle, index) => {
+            particle.x += particle.dx;
+            particle.y += particle.dy;
+
+            if (particle.x < 0 || particle.x > window.innerWidth || particle.y < 0 || particle.y > window.innerHeight) {
+                particles.splice(index, 1);
             }
-        };
 
-        const animateParticles = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach((particle, index) => {
-                particle.update();
-                particle.draw();
-                if (particle.size <= 0.2) {
-                    particles.splice(index, 1);
-                    particles.push(new Particle());
-                }
-            });
-            requestAnimationFrame(animateParticles);
-        };
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(255, 100, 100, 0.7)";
+            ctx.fill();
+        });
 
-        initParticles();
-        animateParticles();
-    };
+        if (particles.length < 100) createParticles();
+
+        requestAnimationFrame(updateParticles);
+    }
+
+    updateParticles();
 });
