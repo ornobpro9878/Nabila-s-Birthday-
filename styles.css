@@ -1,10 +1,9 @@
-/* Updated styles.css */
-
+/* styles.css */
 body {
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(to bottom, #ffffff, #f8d7e9);
+    background: linear-gradient(to bottom, #fff, #ffe6f2);
     overflow: hidden;
 }
 
