@@ -1,87 +1,98 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const slides = document.querySelectorAll(".slide");
-    const nextButtons = document.querySelectorAll("#nextButton");
+// script.js
+
+let currentSlide = 0;
+const slides = document.querySelectorAll(".slide");
+
+// Function to show the next slide
+function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+        slides[currentSlide].classList.remove("active");
+        currentSlide++;
+        slides[currentSlide].classList.add("active");
+    }
+}
+
+// Function to release balloons
+function releaseBalloons() {
     const balloonContainer = document.getElementById("balloonContainer");
-    const cutCakeButton = document.getElementById("cutCakeButton");
-    let currentSlide = 0;
+    const balloons = [];
 
-    // Function to go to the next slide
-    nextButtons.forEach((button, index) => {
-        button.addEventListener("click", () => {
-            if (index < slides.length - 1) {
-                slides[currentSlide].classList.remove("active");
-                slides[currentSlide].classList.add("hidden");
-                currentSlide++;
-                slides[currentSlide].classList.remove("hidden");
-                slides[currentSlide].classList.add("active");
+    for (let i = 0; i < 10; i++) {
+        const balloon = document.createElement("div");
+        balloon.classList.add("balloon");
+        balloon.style.left = `${Math.random() * 90 + 5}%`;
+        balloon.style.animationDelay = `${Math.random() * 2}s`;
+        balloonContainer.appendChild(balloon);
+        balloons.push(balloon);
 
-                if (currentSlide === 2) spawnBalloons();
-            }
-        });
-    });
-
-    // Function to spawn balloons
-    function spawnBalloons() {
-        balloonContainer.innerHTML = ""; // Clear previous balloons
-        for (let i = 0; i < 8; i++) {
-            const balloon = document.createElement("div");
-            balloon.className = "balloon";
-            balloon.style.left = `${Math.random() * 80 + 10}%`;
-            balloon.style.animationDelay = `${Math.random() * 2}s`;
-            balloon.addEventListener("click", () => balloon.remove());
-            balloonContainer.appendChild(balloon);
-        }
+        setTimeout(() => {
+            balloon.style.display = "block";
+        }, 100); // Delay to make animations smooth
     }
 
-    // Cut the cake animation
-    cutCakeButton.addEventListener("click", () => {
-        cutCakeButton.textContent = "Enjoy the Cake! 🎂";
-        cutCakeButton.disabled = true;
-    });
+    setTimeout(() => {
+        balloons.forEach(balloon => balloon.remove());
+    }, 5000); // Remove balloons after animation
+}
 
-    // Particle background
-    const particleCanvas = document.getElementById("particleCanvas");
-    const ctx = particleCanvas.getContext("2d");
-    const particles = [];
+// Function to animate cake cutting
+function cutCake() {
+    const cakeContainer = document.getElementById("cakeContainer");
+    cakeContainer.style.background = "linear-gradient(to bottom, #ffccd5, #ffe6f2)";
+    cakeContainer.innerHTML = `<p>Enjoy the cake! 🎂</p>`;
+}
 
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+// Background heart particles
+const particleCanvas = document.getElementById("particleCanvas");
+const ctx = particleCanvas.getContext("2d");
+const particles = [];
 
-    function resizeCanvas() {
-        particleCanvas.width = window.innerWidth;
-        particleCanvas.height = window.innerHeight;
-    }
+// Resize canvas
+function resizeCanvas() {
+    particleCanvas.width = window.innerWidth;
+    particleCanvas.height = window.innerHeight;
+}
 
-    function createParticles() {
+// Create heart particles
+function createParticles() {
+    for (let i = 0; i < 50; i++) {
         particles.push({
-            x: Math.random() * window.innerWidth,
-            y: Math.random() * window.innerHeight,
-            radius: Math.random() * 4 + 1,
-            dx: Math.random() * 2 - 1,
-            dy: Math.random() * 2 - 1,
+            x: Math.random() * particleCanvas.width,
+            y: Math.random() * particleCanvas.height,
+            size: Math.random() * 5 + 1,
+            speedX: Math.random() * 2 - 1,
+            speedY: Math.random() * 2 - 1,
+            opacity: Math.random()
         });
     }
+}
 
-    function updateParticles() {
-        ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
-        particles.forEach((particle, index) => {
-            particle.x += particle.dx;
-            particle.y += particle.dy;
+// Draw particles
+function drawParticles() {
+    ctx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
 
-            if (particle.x < 0 || particle.x > window.innerWidth || particle.y < 0 || particle.y > window.innerHeight) {
-                particles.splice(index, 1);
-            }
+    particles.forEach(particle => {
+        ctx.fillStyle = `rgba(255, 102, 153, ${particle.opacity})`;
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
 
-            ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(255, 100, 100, 0.7)";
-            ctx.fill();
-        });
+        particle.x += particle.speedX;
+        particle.y += particle.speedY;
 
-        if (particles.length < 100) createParticles();
+        if (particle.x > particleCanvas.width || particle.x < 0) {
+            particle.speedX *= -1;
+        }
+        if (particle.y > particleCanvas.height || particle.y < 0) {
+            particle.speedY *= -1;
+        }
+    });
 
-        requestAnimationFrame(updateParticles);
-    }
+    requestAnimationFrame(drawParticles);
+}
 
-    updateParticles();
-});
+resizeCanvas();
+createParticles();
+drawParticles();
+window.addEventListener("resize", resizeCanvas);
