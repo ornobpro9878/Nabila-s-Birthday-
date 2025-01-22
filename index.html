@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Nabila</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="background">
+        <!-- Slide 1 -->
+        <div class="slide" id="slide1">
+            <div class="star">✨</div>
+            <p class="title">It's Your Special Day, Nabila!</p>
+            <button class="button" onclick="showSlide('slide2')">Next</button>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide hidden" id="slide2">
+            <p class="message">I made something special for you because you're so special to me! ❤️</p>
+            <button class="button" onclick="showSlide('slide3')">Next</button>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide hidden" id="slide3">
+            <p class="message">Do you want to see what I made?</p>
+            <div class="button-group">
+                <button class="button" onclick="yesClicked()">Yes!</button>
+                <button class="button" onclick="noClicked()">No</button>
+            </div>
+        </div>
+
+        <!-- Slide for Yes -->
+        <div class="slide hidden" id="slideYes">
+            <p class="message">Yay! I'm so glad you're excited, Nabila! 🎉</p>
+            <button class="button" onclick="showSlide('slide6')">Next</button>
+        </div>
+
+        <!-- Slide for No -->
+        <div class="slide hidden" id="slideNo">
+            <p class="message">Oh no! Please watch it, Nabila! 🙏</p>
+            <button class="button" onclick="showSlide('slide6')">OK</button>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide hidden" id="slide6">
+            <p class="message">Let's decorate for the celebration! 🎉</p>
+            <div class="floating-balloons"></div>
+            <button class="button" onclick="showSlide('slide7')">Next</button>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide hidden" id="slide7">
+            <p class="message">Click the balloons to release them! 🎈</p>
+            <canvas id="balloonsCanvas"></canvas>
+            <button class="button" onclick="showSlide('slide8')">Next</button>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide hidden" id="slide8">
+            <p class="message">Here's a special cake for you! 🎂</p>
+            <div class="cake" id="cake">
+                <button class="button" onclick="splitCake()">Cut the Cake</button>
+            </div>
+        </div>
+
+        <!-- Slide 9 -->
+        <div class="slide hidden" id="slide9">
+            <p class="final-message">Dear Nabila, thank you for being so kind and supportive. This is my way of showing love and appreciation for you! 💖</p>
+            <button class="button" onclick="restart()">Restart</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

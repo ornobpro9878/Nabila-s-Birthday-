@@ -1,0 +1,92 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #fff8e1, #ffe4c4);
+    overflow: hidden;
+}
+
+.background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.95);
+}
+
+.star {
+    font-size: 5rem;
+    color: gold;
+    margin-bottom: 20px;
+    animation: sparkle 2s infinite;
+}
+
+@keyframes sparkle {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.title, .message, .final-message {
+    font-size: 2rem;
+    color: #ff6f61;
+}
+
+.button {
+    background: #ff6f61;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.button:hover {
+    background: #ff3b2f;
+}
+
+/* Floating Balloons */
+.floating-balloons {
+    width: 100%;
+    height: 100%;
+    background: url('balloons.png') no-repeat center center;
+    background-size: cover;
+    animation: floatBalloons 5s infinite;
+}
+
+@keyframes floatBalloons {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Cake Animation */
+.cake {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    background: #ffcccb;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 20px auto;
+}
