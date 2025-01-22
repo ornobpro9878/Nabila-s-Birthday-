@@ -1,58 +1,41 @@
-<!-- HTML File -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday Nabila</title>
+    <title>Birthday Celebration for Nabila</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="slide" id="slide1">
-        <div class="text-box">
-            <p>✨ It's Your Special Day, Nabila! ✨</p>
-        </div>
-        <div class="button-container">
-            <button id="yesButton">Yes!</button>
-            <button id="noButton">No</button>
-        </div>
-    </div>
+    <canvas id="particleCanvas"></canvas>
 
-    <div class="slide hidden" id="slide2">
-        <div class="text-box">
-            <p>Let's decorate for the celebration! 🎉</p>
+    <div id="slidesContainer">
+        <div class="slide active">
+            <div class="textBox">✨ It's Your Special Day, Nabila! 🎉</div>
+            <button id="nextButton">Next</button>
         </div>
-        <canvas id="particleCanvas"></canvas>
-        <div class="button-container">
-            <button id="nextButton1">Next</button>
-        </div>
-    </div>
 
-    <div class="slide hidden" id="slide3">
-        <div class="text-box">
-            <p>Click the balloons to release them! 🎈</p>
+        <div class="slide hidden">
+            <div class="textBox">Let's decorate for the celebration! 🎈</div>
+            <button id="nextButton">Next</button>
         </div>
-        <div id="balloonContainer"></div>
-        <div class="button-container">
-            <button id="nextButton2">Next</button>
-        </div>
-    </div>
 
-    <div class="slide hidden" id="slide4">
-        <div class="text-box">
-            <p>Here's a special cake for you! 🎂</p>
+        <div class="slide hidden" id="balloonSlide">
+            <div class="textBox">Click the balloons to release them! 🎈</div>
+            <div id="balloonContainer"></div>
+            <button id="nextButton">Next</button>
         </div>
-        <div id="cakeContainer">
-            <button id="cutCakeButton">Cut the Cake</button>
-        </div>
-        <div class="button-container">
-            <button id="nextButton3">Next</button>
-        </div>
-    </div>
 
-    <div class="slide hidden" id="slide5">
-        <div class="text-box">
-            <p>Nabila, you care so much for everyone. 🥰<br>Thank you for being the wonderful person you are!</p>
+        <div class="slide hidden" id="cakeSlide">
+            <div class="textBox">Here's a special cake for you! 🎂</div>
+            <div id="cakeContainer">
+                <button id="cutCakeButton">Cut the Cake</button>
+            </div>
+            <button id="nextButton">Next</button>
+        </div>
+
+        <div class="slide hidden">
+            <div class="textBox">Thank you for everything, Nabila! ❤️</div>
         </div>
     </div>
 
