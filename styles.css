@@ -1,106 +1,127 @@
-/* General Styles */
 body {
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(to bottom, #fff, #ffe3c9);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(to bottom, #fff1e6, #ffd7b5);
     overflow: hidden;
 }
 
-.slide {
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
-
-.slide.active {
-    display: flex;
-}
-
-.text-box {
-    background: #ffffff;
-    padding: 20px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-bottom: 20px;
-    font-size: 1.2rem;
-    color: #ff6f61;
-}
-
-button {
-    background-color: #ff6f61;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    margin: 5px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-}
-
-button:hover {
-    background-color: #ff4a3a;
-}
-
-/* Canvas for particles */
 #particleCanvas {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
+    z-index: 0;
+    pointer-events: none;
 }
 
-/* Balloon Container */
-#balloonContainer {
+#slidesContainer {
+    position: relative;
+    width: 100%;
+    height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: flex-end;
-    height: 300px;
+    align-items: center;
+    z-index: 2;
+}
+
+.slide {
+    position: absolute;
+    text-align: center;
+    transition: opacity 0.8s ease, transform 0.8s ease;
     width: 100%;
+}
+
+.slide.hidden {
+    opacity: 0;
+    transform: translateY(50px);
+    pointer-events: none;
+}
+
+.slide.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}
+
+.textBox {
+    background: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    animation: float 2s infinite alternate ease-in-out;
+}
+
+@keyframes float {
+    from {
+        transform: translateY(-10px);
+    }
+    to {
+        transform: translateY(10px);
+    }
+}
+
+#nextButton,
+#cutCakeButton {
+    background: #ff7f7f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+#nextButton:hover,
+#cutCakeButton:hover {
+    background: #ff4f4f;
+    transform: scale(1.1);
+}
+
+#balloonContainer {
     position: relative;
+    width: 100%;
+    height: 300px;
+    margin-top: 20px;
     overflow: hidden;
 }
 
 .balloon {
     position: absolute;
     width: 50px;
-    height: 70px;
-    background-color: red;
+    height: 80px;
+    background: radial-gradient(circle at bottom, #ff5f5f, #ff2f2f);
     border-radius: 50%;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
-    animation: floatBalloon 5s linear infinite;
+    animation: floatUp 4s infinite ease-in-out;
 }
 
-@keyframes floatBalloon {
-    0% {
-        transform: translateY(100%);
-        opacity: 1;
+@keyframes floatUp {
+    from {
+        transform: translateY(300px);
     }
-    100% {
-        transform: translateY(-200%);
-        opacity: 0;
+    to {
+        transform: translateY(-500px);
     }
 }
 
-/* Cake Styling */
 #cakeContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 200px;
-    width: 200px;
-    background-color: pink;
+    margin-top: 20px;
+}
+
+#cakeContainer button {
+    background: pink;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-weight: bold;
+    font-size: 1.2rem;
 }
